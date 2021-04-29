@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+            <!-- new section for google map-->
+            <tab id="excellence" translate="label" sortOrder="10">
+            <label>Excellence</label>
+        </tab>
+
+        <section id="googleMap" translate="label" type="text" sortOrder="320" showInDefault="1" showInWebsite="1" showInStore="1">
+            <class>separator-top</class>
+            <label>Google Map Configuration</label>
+            <tab>excellence</tab>
+            <resource>Excellence_Storebase::storebase_config</resource>
+            <group id="setting" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Google Map Configuration</label>
+                 <field id="active" translate="label" type="select" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Enabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <comment> Add atleast one store before enabling it to show storelocation </comment>
+                </field>
+
+                <field id="store_title" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Store Locator Title</label>
+                    <comment> To be shown as page title. </comment>
+                </field>
+
+                <field id="api" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Google Maps API KEY</label>
+                    <comment><![CDATA[Click on the link to get Google Maps API KEY <a href="https://developers.google.com/maps/documentation/javascript/get-api-key" target="_blank">https://developers.google.com/maps/documentation/javascript/get-api-key</a>]]></comment>
+                </field>
+
+                <field id="distance" translate="label" type="select" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Distance Units</label>
+                    <source_model>Excellence\Storebase\Model\Config\Source\Distance</source_model>
+                </field>
+
+                <field id="radius" translate="label" type="text" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Set Radius</label>
+                    <comment>Enter Radius to find stores in that Radius area</comment>
+                    <validate>required-entry</validate>
+                </field>
+                
+                
+                 <field id="latitude" translate="label" type="text" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="0">
+                    <label>Default Latitude</label>
+                    <comment><![CDATA[Click on the link to get Default latitude <a href="https://support.google.com/maps/answer/18539" target="_blank">https://support.google.com/maps/answer/18539</a> <small>or</small> <a href="http://www.latlong.net" target="_blank">http://www.latlong.net</a>]]></comment>
+                     <validate>required-entry</validate>
+                    </field>
+
+                <field id="longitude" translate="label" type="text" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Default Longitude</label>
+                    <comment><![CDATA[Click on the link to get Default longitude <a href="https://support.google.com/maps/answer/18539" target="_blank">https://support.google.com/maps/answer/18539</a> <small>or</small> <a href="http://www.latlong.net" target="_blank">http://www.latlong.net</a>]]></comment>
+                      <validate>required-entry</validate>
+                </field>
+            </group>
+            <!-- group for seo section-->
+            <group id="seo" translate="label" type="text" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Search Engine Optimization</label>
+                <field id="metaTitle" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Meta Title</label>
+                </field>
+                <field id="metaKeywords" translate="label" type="textarea" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Meta Keywords</label>
+                </field>
+                <field id="metaDescription" translate="label" type="textarea" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Meta Description</label>
+                    <comment>Maximum 255 chars. Meta Description should optimally be between 150-160 characters</comment>
+                </field>
+
+            </group>
+        </section>
+    </system>
+</config>
+

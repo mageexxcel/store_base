@@ -1,0 +1,23 @@
+<?php
+    if(!empty($block->getStorebase())){
+        ?>
+            <div id="storebase">
+                <strong><?php echo __('Storebase Location: ');  ?></strong>
+                <span class="storebase-desc"><?=$block->getStorebase() ?></span>
+            </div>
+            <script type="text/javascript">
+                require(
+                    ['jquery'],
+                    function($) {
+                        var element = $('#storebase').detach();
+                        console.log(element);
+                        $('.order-shipping-method').append(element);
+                        $('.shipping-description-title').append(element);
+                        $('.shipping-description-content').append(element);
+                    }
+                );
+            </script>
+        <?php
+    }
+?>
+            

@@ -1,0 +1,13 @@
+<?php 
+    $objectManager = \Magento\Framework\App\ObjectManager::getInstance(); 
+    $FormKey = $objectManager->get('Magento\Framework\Data\Form\FormKey'); 
+?>
+<div class="geoip-upload-form-container">
+    <form action="<?php echo $block->getUrl('storebase/upload/upload'); ?>" method="post" enctype="multipart/form-data" id="UploadForm">
+        <input name="form_key" type="hidden" value="<?php echo $FormKey->getFormKey();?>">
+        <input name="file" id="file" type="file" />
+        <button type="submit" name="submit" id="submit"><?php echo __('Upload and Import'); ?></button>
+        <img src="images/ajax-loader.gif" id="loading-img" style="display:none;" alt="Please Wait"/>
+    </form>
+</div>
+    
