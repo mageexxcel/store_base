@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Excellence_Storebase::storebase_title" title="Store Base" module="Excellence_Storebase" sortOrder="10"  resource="Excellence_Base::excellence_base" parent="Excellence_Base::base"/>
+
+        <add id="Excellence_Storebase_Manage::storebase" title="Manage Store Locations" module="Excellence_Storebase" sortOrder="10" parent="Excellence_Storebase::storebase_title" action="storebase/index" resource="Excellence_Storebase::manage"/>
+
+        <add id="Excellence_Storebase_Map::storebase_manage" title="Google Map Configuration" module="Excellence_Storebase" sortOrder="10" parent="Excellence_Storebase::storebase_title" action="adminhtml/system_config/edit/section/googleMap" resource="Excellence_Storebase::manage"/>
+    </menu>
+</config>

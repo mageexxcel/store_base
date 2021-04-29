@@ -1,0 +1,277 @@
+
+<?php
+/* @var $block \Magento\Backend\Block\Widget\Form\Renderer\Fieldset\Element */
+$element = $block->getElement();
+$note = $element->getNote() ? '<div class="note">' . $element->getNote() . '</div>' : '';
+$elementBeforeLabel = $element->getExtType() == 'checkbox' || $element->getExtType() == 'radio';
+$addOn = $element->getBeforeElementHtml() || $element->getAfterElementHtml();
+$fieldId = ($element->getHtmlContainerId()) ? ' id="' . $element->getHtmlContainerId() . '"' : '';
+$fieldClass = "admin__field field field-{$element->getId()} {$element->getCssClass()}";
+$fieldClass .= ($elementBeforeLabel) ? ' choice' : '';
+$fieldClass .= ($addOn) ? ' with-addon' : '';
+$fieldClass .= ($element->getRequired()) ? ' _required' : '';
+$fieldClass .= ($note) ? ' with-note' : '';
+
+$fieldAttributes = $fieldId . ' class="' . $fieldClass . '" '
+    . $block->getUiId('form-field', $element->getId());
+?>
+
+<?php if (!$element->getNoDisplay()): ?>
+    <?php if ($element->getType() == 'hidden'): ?>
+        <?php echo $element->getElementHtml() ?>
+    <?php else: ?>
+    <div<?php /* @escapeNotVerified */ echo $fieldAttributes ?>>
+        <?php if ($elementBeforeLabel): ?>
+            <?php echo $element->getElementHtml() ?>
+            <?php echo $element->getLabelHtml() ?>
+            <?php /* @escapeNotVerified */ echo $note ?>
+        <?php else: ?>
+            <?php echo $element->getLabelHtml() ?>
+            <div class="admin__field-control control">
+                <?php /* @escapeNotVerified */ echo($addOn) ? '<div class="addon"  style="float: left;width: 30%;">' . $element->getElementHtml() . '</div>' : $element->getElementHtml(); ?>
+                <?php //echo $block->getHintHtml() ?>
+             
+               
+            <div id="time-range" class="time-range" style="display:none;">
+                <p>Time Range: <span class="range-value">10:00 AM - 6:00 PM</span></span>
+                 <input type='hidden' name='rangetime[]' class="rangetime" value="10:00 AM - 6:00 PM"/>
+                </p>
+                <div class="sliders_step1">
+                    <div class="slider-range"></div>
+                </div>
+            </div>
+            
+            </div>
+        <?php endif; ?>
+        <?php if ($element->getScopeLabel()): ?>
+            <div class="field-service" value-scope="<?php /* @escapeNotVerified */ echo $element->getScopeLabel()?>">
+            </div>
+        <?php endif;?>
+    </div>
+    <?php endif; ?>
+<?php endif; ?>
+
+<script>
+   require([
+        'jquery',
+        'jquery/ui',
+        'mage/mage'
+     ], function ($) {
+    
+         var indexposition = 0;
+    
+        jQuery('.storestatus').change(function(){
+          
+             if(jQuery(this).val() == 2){
+               jQuery(this).siblings('.time-range:first').show();
+             } else {
+                jQuery(this).siblings('.time-range:first').hide();
+             }
+            
+        });
+
+        jQuery('.storestatus').each(function(){
+             if(jQuery(this).val() == 2){
+               jQuery(this).siblings('.time-range:first').show();
+             } else {
+                jQuery(this).siblings('.time-range:first').hide();
+             }
+       });
+
+       var v1='10:00 AM';
+       var v2='6:00 PM';
+       var valuesTimeArray=[];
+       valuesTimeArray[0]=600;
+       valuesTimeArray[1]=1080;
+       var timesIntervalArray = jQuery('#storebase_main_time_range').val();
+
+       var arr = [];
+  if(timesIntervalArray){ 
+        var timeIntObject = JSON.parse(timesIntervalArray);
+
+       for(var x in timeIntObject){
+             arr.push(timeIntObject[x]);
+          }
+    }
+     if('<?php echo $element->getId(); ?>'== 'sunday'){
+            if(timesIntervalArray){ 
+             if(timeIntObject.hasOwnProperty('sunday')){
+               timestring = timeIntObject.sunday;
+               valuesTimeArray = valueInterval(timestring);
+            }
+           }
+            indexposition=0;
+        }
+
+     if('<?php echo $element->getId(); ?>'== 'monday'){
+            if(timesIntervalArray){ 
+               if(timeIntObject.hasOwnProperty('monday')){
+                timestring = timeIntObject.monday;
+               valuesTimeArray = valueInterval(timestring);
+              }
+            }
+            indexposition=1;
+          }
+
+       if('<?php echo $element->getId(); ?>'== 'tuesday'){
+           if(timesIntervalArray){ 
+               if(timeIntObject.hasOwnProperty('tuesday')){
+                timestring = timeIntObject.tuesday;
+               valuesTimeArray = valueInterval(timestring);
+             }
+           }
+           indexposition=2; 
+        }
+
+     if('<?php echo $element->getId(); ?>'== 'wednesday'){
+        if(timesIntervalArray){ 
+            if(timeIntObject.hasOwnProperty('wednesday')){
+                timestring = timeIntObject.wednesday;
+               valuesTimeArray = valueInterval(timestring);
+            }
+         }
+            indexposition=3;
+          }
+
+      if('<?php echo $element->getId(); ?>'== 'thursday'){
+        if(timesIntervalArray){ 
+            if(timeIntObject.hasOwnProperty('thursday')){
+                timestring =timeIntObject.thursday;
+               valuesTimeArray = valueInterval(timestring);
+            }
+        }
+            indexposition=4;
+        }
+
+     if('<?php echo $element->getId(); ?>'== 'friday'){
+          if(timesIntervalArray){ 
+             if(timeIntObject.hasOwnProperty('friday')){
+                timestring = timeIntObject.friday;
+               valuesTimeArray = valueInterval(timestring);
+            }
+           } 
+             indexposition=5;
+          }         
+       
+       if('<?php echo $element->getId(); ?>'== 'saturday'){
+           if(timesIntervalArray){ 
+             if(timeIntObject.hasOwnProperty('saturday')){
+                timestring = timeIntObject.saturday;
+               valuesTimeArray = valueInterval(timestring);
+            }
+           }
+             indexposition=6;
+          }  
+ 
+
+    function valueInterval(timestring){
+       var timeOpenArray= timestring.split('-'); // split it at the colons
+                var timeStart = jQuery.trim(timeOpenArray[0]);
+                if(timeStart != 'Closed') {
+                var hours = Number(timeStart.match(/^(\d+)/)[1]);
+                var minutes = Number(timeStart.match(/:(\d+)/)[1]);
+                var AMPM = timeStart.match(/\s(.*)$/)[1];
+                if(AMPM == "PM" && hours<12) hours = hours+12 ;
+                if(AMPM == "AM" && hours==12)  hours = hours-12 ;
+                var sHours = hours.toString();
+                var sMinutes = minutes.toString();
+                if(hours<10) sHours = "0" + sHours;
+                if(minutes<10) sMinutes = "0" + sMinutes;
+                  var minutestotal = parseInt(sHours * 60 ) + parseInt(sMinutes) ; 
+                   v1 = minutestotal;
+              
+                var timeEnd = jQuery.trim(timeOpenArray[1]);
+               
+                var hours = Number(timeEnd.match(/^(\d+)/)[1]);
+                var minutes = Number(timeEnd.match(/:(\d+)/)[1]);
+                var AMPM = timeEnd.match(/\s(.*)$/)[1];
+                if(AMPM == "PM" && hours<12) hours = hours+12;
+                if(AMPM == "AM" && hours==12) hours = hours-12;
+                var sHours = hours.toString();
+                var sMinutes = minutes.toString();
+                if(hours<10) sHours = "0" + sHours;
+                if(minutes<10) sMinutes = "0" + sMinutes;
+                   var minutestotal = parseInt(sHours * 60 ) + parseInt(sMinutes) ; 
+                   v2 = minutestotal;
+                   var valueArrayInterval=[];
+                    valueArrayInterval[0]=v1;
+                    valueArrayInterval[1]=v2;
+                   return valueArrayInterval;
+                 } else {
+                   var valueArrayInterval=[];
+                    valueArrayInterval[0]=600;
+                    valueArrayInterval[1]=1080;
+                     return valueArrayInterval;
+                 }
+      
+       }      
+ 
+ v1=parseInt(valuesTimeArray[0]);
+ v2=parseInt(valuesTimeArray[1]);   
+
+
+    jQuery(".slider-range").eq(indexposition).slider({
+    range: true,
+    min: 0,
+    max: 1440,
+    step: 15,
+    values: [v1, v2],
+    slide: function (e, ui) {
+        var hours1 = Math.floor(ui.values[0] / 60);
+        var minutes1 = ui.values[0] - (hours1 * 60);
+
+        if (hours1.length == 1) hours1 = '0' + hours1;
+        if (minutes1.length == 1) minutes1 = '0' + minutes1;
+        if (minutes1 == 0) minutes1 = '00';
+        if (hours1 >= 12) {
+            if (hours1 == 12) {
+                hours1 = hours1;
+                minutes1 = minutes1 + " PM";
+            } else {
+                hours1 = hours1 - 12;
+                minutes1 = minutes1 + " PM";
+            }
+        } else {
+            hours1 = hours1;
+            minutes1 = minutes1 + " AM";
+        }
+        if (hours1 == 0) {
+            hours1 = 12;
+            minutes1 = minutes1;
+        }
+
+
+
+     
+        var hours2 = Math.floor(ui.values[1] / 60);
+        var minutes2 = ui.values[1] - (hours2 * 60);
+
+        if (hours2.length == 1) hours2 = '0' + hours2;
+        if (minutes2.length == 1) minutes2 = '0' + minutes2;
+        if (minutes2 == 0) minutes2 = '00';
+        if (hours2 >= 12) {
+            if (hours2 == 12) {
+                hours2 = hours2;
+                minutes2 = minutes2 + " PM";
+            } else if (hours2 == 24) {
+                hours2 = 11;
+                minutes2 = "59 PM";
+            } else {
+                hours2 = hours2 - 12;
+                minutes2 = minutes2 + " PM";
+            }
+        } else {
+            hours2 = hours2;
+            minutes2 = minutes2 + " AM";
+        }
+
+        jQuery(this).closest('.time-range').find('.range-value').html(hours1 + ':' + minutes1+' - '+hours2 + ':' + minutes2);
+
+        jQuery(this).closest('.time-range').find('.rangetime').val(jQuery(this).closest('.time-range').find('.range-value').text());
+
+    }
+  });
+
+});
+</script>
+

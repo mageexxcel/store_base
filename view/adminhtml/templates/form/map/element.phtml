@@ -1,0 +1,63 @@
+<div class="admin__field field field-map  required _required" data-ui-id="storebase-edit-tab-main-fieldset-element-form-field-map">
+    <label class="label admin__field-label" for="storebase_main_map" data-ui-id="storebase-edit-tab-main-fieldset-element-text-map-label"></label>
+    <div class="admin__field-control control">
+        <input type="hidden" id="ex_lat">
+        <input type="hidden" id="ex_lng">
+        <small><?php echo __('Search for an address and to autofill Latitude and Longitude.'); ?></small>
+        <input id="pac-input" data-ui-id="storebase-edit-tab-main-fieldset-element-text-map" value="" title="Map" type="text" class="input-text admin__control-text">
+        <div id="map"></div>
+
+	</div>
+</div>
+<script>
+
+function initAutocomplete() {
+    if (document.getElementById("storebase_main_latitude").value == null) {
+       var laty=-31.86;
+      var  longi=151.21;
+    }else{
+        var laty = parseFloat(document.getElementById("storebase_main_latitude").value);
+        var longi = parseFloat(document.getElementById("storebase_main_longitude").value);
+    }
+	var map = new google.maps.Map(document.getElementById('map'), {
+	  center: {lat: laty, lng: longi},
+	  zoom: 13,
+	  mapTypeId: 'terrain'
+	});
+
+	// Create the search box and link it to the UI element.
+	var input = document.getElementById('pac-input');
+	var autocomplete = new google.maps.places.Autocomplete(input);
+
+    google.maps.event.addListener(autocomplete, 'place_changed', function () {
+        var place = autocomplete.getPlace();
+
+        // console.log(place.geometry.location.lat());
+        var lati = place.geometry.location.lat();
+        var long = place.geometry.location.lng();
+        var pos = {
+               lat: lati,
+               lng: long
+           };
+        // map.setCenter(pos);
+        map.setZoom(18);
+        document.getElementById("ex_lat").value = lati;
+        document.getElementById("ex_lng").value = long;
+        document.getElementById("storebase_main_latitude").value = lati;
+        document.getElementById("storebase_main_longitude").value = long;
+        var location = new google.maps.LatLng(lati, long);
+        map.panTo(location);
+        marker = new google.maps.Marker({
+                        position: new google.maps.LatLng(lati, long),
+                        map: map,
+                        animation: google.maps.Animation.DROP
+                    });
+    });
+
+	map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
+
+}
+
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key=<?php echo $block->getApi(); ?>&libraries=places&callback=initAutocomplete"
+         async defer></script>

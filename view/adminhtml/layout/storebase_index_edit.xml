@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-2columns-left" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <head>
+        <css src="jquery/fileUploader/css/jquery.fileupload-ui.css"/>
+        <link src="jquery/fileUploader/bootstrap.js"/>
+        <css src="Excellence_Storebase::css/mapProcessor.css" />
+        <css src="Excellence_Storebase/css/timerange.css" />
+    </head>
+    <update handle="editor"/>
+    <body>
+        <referenceContainer name="content">
+            <block class="Excellence\Storebase\Block\Adminhtml\Storebase\Edit" name="storebase_edit"/>
+        </referenceContainer>
+        <referenceContainer name="left">
+            <block class="Excellence\Storebase\Block\Adminhtml\Storebase\Edit\Tabs" name="storebase_edit_tabs">
+                <block class="Excellence\Storebase\Block\Adminhtml\Storebase\Edit\Tab\Main" name="storebase_edit_tab_main"/>
+                <action method="addTab">
+                    <argument name="name" xsi:type="string">main_section</argument>
+                    <argument name="block" xsi:type="string">storebase_edit_tab_main</argument>
+                </action>
+                <action method="addTab">
+                    <argument name="name" xsi:type="string">content_section</argument>
+                    <argument name="block" xsi:type="string">storebase_edit_tab_content</argument>
+                </action>
+                <action method="addTab">
+                    <argument name="name" xsi:type="string">image_section</argument>
+                    <argument name="block" xsi:type="string">storebase_edit_tab_image</argument>
+                </action>
+            </block>
+        </referenceContainer>
+    </body>
+</page>
